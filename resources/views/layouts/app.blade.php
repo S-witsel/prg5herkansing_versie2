@@ -35,6 +35,11 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+
+                        @if(auth()->check() && auth()->user()->profile_picture)
+                            <img height="50px" width="50px" src="{{ asset('images/profile_pictures/' . auth()->user()->profile_picture) }}" alt="Profile Picture" class="img-fluid">
+                        @endif
+
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -59,6 +64,9 @@
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('user.profile') }}">
+                                        {{ __('Profile') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
