@@ -34,5 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/topics', [TopicController::class, 'store'])->name('topics.store');
     Route::get('/home', [TopicController::class, 'index'])->name('home');
     Route::resource('topics', TopicController::class);
+    Route::get('/topics/topic_detail/{topic}', [TopicController::class, 'show'])->name('topics.show');
+    Route::get('/topics/{topic}/edit', [TopicController::class, 'edit'])->name('topics.edit');
 });
 

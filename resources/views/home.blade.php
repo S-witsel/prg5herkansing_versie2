@@ -21,18 +21,11 @@
         @forelse($topics as $topic)
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $topic->title }}</h5>
-                    <p class="card-text">{{ $topic->description }}</p>
-                    <p class="card-text"><small class="text-muted">Created by {{ $topic->user->name }} at {{ $topic->created_at->diffForHumans() }}</small></p>
-                </div>
-                @if(auth()->check() && auth()->user()->id === $topic->user_id)
-                    <form action="{{ route('topics.destroy', $topic) }}" method="post">
-                        @csrf
-                        @method('DELETE')
+                <h5 class="card-title"><a href="{{ route('topics.show', $topic) }}">{{ $topic->title }}</a></h5>
+                <p class="card-text">{{ Str::limit($topic->description, 100) }}</p>
+                <p class="card-text"><small class="text-muted">Created by {{ $topic->user->name }} {{ $topic->created_at->diffForHumans() }}</small></p>
+            </div>
 
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                @endif
             </div>
         @empty
             <p>No topics available.</p>

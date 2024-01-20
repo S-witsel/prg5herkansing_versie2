@@ -51,4 +51,37 @@ class TopicController extends Controller
 
         return redirect()->route('home')->with('success', 'Topic deleted successfully.');
     }
+
+    public function show(Topic $topic)
+    {
+        return view('topics.topic_detail', compact('topic'));
+    }
+
+    public function edit(Topic $topic)
+    {
+        if (auth()->user()->id !== $topic->user_id) {
+            return redirect()->route('home')->with('error', 'You do not have permission to edit this topic.');
+        }
+
+        return view('topics.edit', compact('topic'));
+    }
+
+    public function update(Request $request, Topic $topic)
+    {
+        if (auth()->user()->id !== $topic->user_id) {
+            return redirect()->route('home')->with('error', 'You do not have permission to update this topic.');
+        }
+
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
+        $topic->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+        ]);
+
+        return redirect()->route('topics.show', $topic)->with('success', 'Topic updated successfully.');
+    }
 }
