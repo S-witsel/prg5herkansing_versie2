@@ -36,8 +36,10 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
 
-                        @if(auth()->check() && auth()->user()->profile_picture)
+                        @if(auth()->user()->profile_picture)
                             <img height="50px" width="50px" src="{{ asset('images/profile_pictures/' . auth()->user()->profile_picture) }}" alt="Profile Picture" class="img-fluid">
+                        @else
+                            <p><em>No profile picture available</em></p>
                         @endif
 
                         <!-- Authentication Links -->

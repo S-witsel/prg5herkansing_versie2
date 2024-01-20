@@ -17,11 +17,22 @@ Auth::routes();
 
 use App\Http\Controllers\HomeController;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+//Route::get('/', [HomeController::class, 'index'])->name('home');
+//Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
 use App\Http\Controllers\UserProfileController;
 
 Route::get('/profile', [UserProfileController::class, 'show'])->name('user.profile');
 Route::patch('/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
+
+
+use App\Http\Controllers\TopicController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/topics/create', [TopicController::class, 'create'])->name('topics.create');
+    Route::post('/topics', [TopicController::class, 'store'])->name('topics.store');
+    Route::get('/home', [TopicController::class, 'index'])->name('home');
+    Route::resource('topics', TopicController::class);
+});
+
