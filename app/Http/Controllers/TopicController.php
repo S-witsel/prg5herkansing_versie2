@@ -35,7 +35,7 @@ class TopicController extends Controller
 
     public function index()
     {
-        $topics = Topic::latest()->get();
+        $topics = Topic::with('comments')->latest()->get();
         return view('home', ['topics' => $topics]);
     }
 
