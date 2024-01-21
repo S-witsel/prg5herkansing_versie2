@@ -7,6 +7,13 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $topic->title }}</h5>
                 <p>By {{ $topic->user->name }}</p>
+                <strong>Tags:</strong>
+                @forelse($topic->tags as $tag)
+                    <span>{{ $tag->name }},</span>
+                @empty
+                    <span>No tags</span>
+                @endforelse
+                <hr>
                 <p class="card-text">{{ $topic->description }}</p>
                 <p class="card-text"><small class="text-muted">Created {{ $topic->created_at->diffForHumans() }}</small></p>
                 <a href="{{ route('home') }}" class="btn btn-primary">Back to Home</a>

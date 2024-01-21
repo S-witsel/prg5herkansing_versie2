@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'special.rights' => \App\Http\Middleware\SpecialRightsMiddleware::class,
         'topic.visibility' => \App\Http\Middleware\CheckTopicVisibility::class,
+        'check.comment.count' => \App\Http\Middleware\CheckCommentCount::class,
     ];
 }

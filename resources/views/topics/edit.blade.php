@@ -20,5 +20,21 @@
 
             <button type="submit" class="btn btn-primary">Update Topic</button>
         </form>
+        <h3>Edit Tags:</h3>
+        <form action="{{ route('topics.updateTags', $topic) }}" method="post">
+            @csrf
+            @method('PUT')
+
+            <label for="tag_ids">Select Tags:</label>
+            <select name="tag_ids[]" id="tag_ids" multiple>
+                @foreach($allTags as $tag)
+                    <option value="{{ $tag->id }}" {{ in_array($tag->id, $topic->tags->pluck('id')->toArray()) ? 'selected' : '' }}>
+                        {{ $tag->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            <button type="submit">Update Tags</button>
+        </form>
     </div>
 @endsection

@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('topics', TopicController::class);
     Route::get('/topics/topic_detail/{topic}', [TopicController::class, 'show'])->name('topics.show')->middleware('topic.visibility');
     Route::get('/topics/{topic}/edit', [TopicController::class, 'edit'])->name('topics.edit')->middleware('topic.visibility');
+    Route::put('/topics/{topic}/updateTags', [TopicController::class, 'updateTags'])->name('topics.updateTags');
 });
 
 use App\Http\Controllers\CommentController;
@@ -46,7 +47,10 @@ use App\Http\Controllers\TagController;
 Route::middleware(['special.rights'])->group(function () {
     Route::get('/admin/options', [AdminOptionsController::class, 'index'])->name('admin.options');
     Route::put('/admin/toggle-visibility/{topic}', [AdminOptionsController::class, 'toggleVisibility'])->name('admin.toggleVisibility');
+
     Route::get('/admin/tags', [TagController::class, 'manageTags'])->name('admin.manageTags');
+    Route::post('/admin/tags', [TagController::class, 'createTag'])->name('tags.store');
+    Route::delete('/admin/tags', [TagController::class, 'deleteTag'])->name('tags.destroy');
 });
 
 
