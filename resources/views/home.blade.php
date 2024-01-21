@@ -16,23 +16,24 @@
                 <a href="{{ route('admin.manageTags') }}" class="btn btn-primary">Manage Tags</a>
             @endif
         </div>
-            <hr>
-            <form action="{{ route('topics.index') }}" method="GET">
-                <label for="search">Search:</label>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title or description">
+        <hr>
+        <form action="{{ route('topics.index') }}" method="GET">
+            <label for="search">Search:</label>
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title or description">
 
-                <label for="tags">Filter by Tags:</label>
-                <select name="tags[]" multiple>
-                    @foreach($allTags as $tag)
-                        <option value="{{ $tag->id }}" {{ in_array($tag->id, (array) request('tags', [])) ? 'selected' : '' }}>
-                            {{ $tag->name }}
-                        </option>
-                    @endforeach
-                </select>
+            <label>Filter by Tags:</label>
+            <div class="tag-grid">
+                @foreach($allTags as $tag)
+                    <div class="tag-checkbox">
+                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}" {{ in_array($tag->id, (array) request('tags', [])) ? 'checked' : '' }}>
+                        <label for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                    </div>
+                @endforeach
+            </div>
 
-                <button type="submit">Apply Filters</button>
-            </form>
-            <hr>
+            <button type="submit">Apply Filters</button>
+        </form>
+        <hr>
 
         <h2>Latest Topics</h2>
 
@@ -42,12 +43,12 @@
                     <div class="card-body">
                         <h5 class="card-title"><a href="{{ route('topics.show', $topic) }}">{{ $topic->title }}</a></h5>
                         <p>By {{ $topic->user->name }}</p>
-                            <strong>Tags:</strong>
-                            @forelse($topic->tags as $tag)
-                                <span>{{ $tag->name }},</span>
-                            @empty
-                                <span>No tags</span>
-                            @endforelse
+                        <strong>Tags:</strong>
+                        @forelse($topic->tags as $tag)
+                            <span>{{ $tag->name }},</span>
+                        @empty
+                            <span>No tags</span>
+                        @endforelse
                         <hr>
                         <p class="card-text">{{ Str::limit($topic->description, 100) }}</p>
                         <p class="card-text"><small class="text-muted">Created {{ $topic->created_at->diffForHumans() }}</small></p>
@@ -59,4 +60,3 @@
         @endforelse
     </div>
 @endsection
-

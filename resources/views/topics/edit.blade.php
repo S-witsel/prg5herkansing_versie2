@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -18,23 +17,19 @@
                 <textarea name="description" id="description" class="form-control" rows="5" required>{{ $topic->description }}</textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Update Topic</button>
-        </form>
-        <h3>Edit Tags:</h3>
-        <form action="{{ route('topics.updateTags', $topic) }}" method="post">
-            @csrf
-            @method('PUT')
+            <label>Select Tags:</label>
 
-            <label for="tag_ids">Select Tags:</label>
-            <select name="tag_ids[]" id="tag_ids" multiple>
+            <div class="tag-grid">
                 @foreach($allTags as $tag)
-                    <option value="{{ $tag->id }}" {{ in_array($tag->id, $topic->tags->pluck('id')->toArray()) ? 'selected' : '' }}>
-                        {{ $tag->name }}
-                    </option>
+                    <div class="tag-checkbox">
+                        <input type="checkbox" name="tag_ids[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}"
+                            {{ in_array($tag->id, $topic->tags->pluck('id')->toArray()) ? 'checked' : '' }}>
+                        <label for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                    </div>
                 @endforeach
-            </select>
+            </div>
 
-            <button type="submit">Update Tags</button>
+            <button type="submit" class="btn btn-primary">Update Topic and Tags</button>
         </form>
     </div>
 @endsection

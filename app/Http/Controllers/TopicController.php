@@ -67,12 +67,10 @@ class TopicController extends Controller
 
     public function destroy(Topic $topic)
     {
-        // Check if the authenticated user is the owner of the topic
         if (auth()->user()->id !== $topic->user_id) {
             return redirect()->route('home')->with('error', 'You do not have permission to delete this topic.');
         }
 
-        // Delete the topic
         $topic->delete();
 
         return redirect()->route('home')->with('success', 'Topic deleted successfully.');
@@ -96,19 +94,20 @@ class TopicController extends Controller
 
     public function update(Request $request, Topic $topic)
     {
-        if (auth()->user()->id !== $topic->user_id) {
-            return redirect()->route('home')->with('error', 'You do not have permission to update this topic.');
-        }
-
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
         ]);
 
+        // Update topic details
         $topic->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
         ]);
+
+        // Update tags
+        $tagIds = $request->input('tag_ids', []); // Get selected tag IDs or an empty array if none selected
+        $topic->tags()->sync($tagIds); // Sync the selected tags
 
         return redirect()->route('topics.show', $topic)->with('success', 'Topic updated successfully.');
     }

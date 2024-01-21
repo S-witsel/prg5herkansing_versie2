@@ -17,12 +17,16 @@
                 <textarea name="description" id="description" class="form-control" rows="5" required>{{ old('description') }}</textarea>
             </div>
 
-            <label for="tag_ids">Select Tags:</label>
-            <select name="tag_ids[]" id="tag_ids" multiple>
+            <label>Select Tags:</label>
+
+            <div class="tag-grid">
                 @foreach($allTags as $tag)
-                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    <div class="tag-checkbox">
+                        <input type="checkbox" name="tag_ids[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}" {{ old('tag_ids') && in_array($tag->id, old('tag_ids')) ? 'checked' : '' }}>
+                        <label for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                    </div>
                 @endforeach
-            </select>
+            </div>
 
             <button type="submit" class="btn btn-primary">Create Topic</button>
         </form>

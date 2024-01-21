@@ -7,7 +7,6 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $topic->title }}</h5>
                 <p>By {{ $topic->user->name }}</p>
-                <strong>Tags:</strong>
                 @forelse($topic->tags as $tag)
                     <span>{{ $tag->name }},</span>
                 @empty

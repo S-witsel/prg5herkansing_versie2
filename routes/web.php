@@ -54,3 +54,5 @@ Route::middleware(['special.rights'])->group(function () {
 });
 
 
+
+Route::delete('/topics/{topic}', [TopicController::class, 'destroy'])->name('topics.destroy')->middleware(['auth', 'topic.ownership']);
